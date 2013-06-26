@@ -1,0 +1,42 @@
+{
+	"name": "configurine-client",
+	"description": "",
+	"contributors": [
+		"Mac Angell <mac.ang311@gmail.com>"
+	],
+	"version": "0.0.1",
+	"dependencies": {
+		"request": "2.x.x",
+		"underscore": "1.x.x"
+	},
+	"devDependencies": {
+		"mocha": "1.x.x",
+		"jshint": "0.x.x",
+		"travis-cov": "0.2.x",
+		"blanket": "1.0.x"
+	},
+	"keywords": [
+		"config",
+		"configurine"
+	],
+	"engines": {
+		"node": ">=0.8.0"
+	},
+	"main": "./lib/configurineClient.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mac-/node-configurine-client"
+	},
+	"scripts": {
+		"test": "make test && make test-cov",
+		"blanket": {
+			"pattern": "//^((?!\/node_modules\/)(?!\/test\/).)*$/ig",
+			"onlyCwd": true,
+			"data-cover-flags": {
+				"branchTracking": true
+			}
+		},
+		"travis-cov": { "threshold": 95 }
+	},
+	"subdomain": "node-configurine-client"
+}
