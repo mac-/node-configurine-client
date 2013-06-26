@@ -3,9 +3,6 @@ clean:
 
 install:
 	make clean && npm install
-
-update:
-	make clean && rm -rf npm-shrinkwrap.json && npm install . && npm shrinkwrap
 	 
 test:
 	./node_modules/.bin/jshint lib/* --config test/jshint/config.json --reporter test/jshint/reporter.js
