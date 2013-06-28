@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/mac-/node-configurine-client.png)](http://travis-ci.org/mac-/node-configurine-client)
 [![NPM version](https://badge.fury.io/js/configurine-client.png)](http://badge.fury.io/js/configurine-client)
-[![Dependency Status](https://david-dm.org/mac-/configurine-client.png)](https://david-dm.org/mac-/configurine-client)
+[![Dependency Status](https://david-dm.org/mac-/node-configurine-client.png)](https://david-dm.org/mac-/node-configurine-client)
 
 ## Installation
 
