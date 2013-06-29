@@ -13,7 +13,9 @@
 		"mocha": "1.x.x",
 		"jshint": "0.x.x",
 		"travis-cov": "0.2.x",
-		"blanket": "1.0.x"
+		"blanket": "1.0.x",
+		"nock": "0.x.x",
+		"underscore": "1.x.x"
 	},
 	"keywords": [
 		"config",
