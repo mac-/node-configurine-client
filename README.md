@@ -55,7 +55,7 @@ var options = {
 	associations: {
 		applications: [{
 			name: 'myapp',
-			version: '1.0.0'
+			versions: ['1.0.0']
 		}],
 		environments: ['production']
 	}
@@ -65,6 +65,113 @@ client.getConfigByName('loglevel', options, function(err, results) {
 	console.log(results); // an array of config resources
 });
 ```
+
+### getConfigById
+
+Retrieves a single config entry by id. This is the method signature:
+
+```
+getConfigById(String id, Function callback)
+```
+
+where:
+
+* `id` - is the unique id of the config entry to retrieve
+* `callback` - a method that expects to recieve an error object as the first parameter and a results object as the second that will be invoked when the response returns from configurine.
+
+```javascript
+client.getConfigById('519c26189bc580ecf8000001', function(err, results) {
+	console.log(results); // a single config resource
+});
+```
+
+### createConfig
+
+Creates a single config entry. This is the method signature:
+
+```
+createConfig(Object config, Function callback)
+```
+
+where:
+
+* `config` - is the object representation of the resource to create
+* `callback` - a method that expects to recieve an error object as the first parameter and a results object as the second that will be invoked when the response returns from configurine.
+
+```javascript
+var config = {
+	name: 'loglevel',
+	value: 'error',
+	associations: {
+		applications: [{
+			name: "myApp",
+			versions: ["1.0.0", "1.1.0"]
+		}],
+		environments: ["production"]
+	},
+	isActive: true,
+	isSensitive: false
+};
+client.createConfig(config, function(err, results) {
+	console.log(results); // the ID of the newly created resource
+});
+```
+
+### updateConfigById
+
+Updates a single config entry. This is the method signature:
+
+```
+updateConfigById(String id, Object config, Function callback)
+```
+
+where:
+
+* `id` - is the unique id of the config entry to update
+* `config` - is the object representation of the resource to update
+* `callback` - a method that expects to recieve an error object as the first parameter and a results object as the second that will be invoked when the response returns from configurine.
+
+```javascript
+var config = {
+	id: '519c26189bc580ecf8000001',
+	name: 'loglevel',
+	value: 'error',
+	associations: {
+		applications: [{
+			name: "myApp",
+			versions: ["1.0.0", "1.1.0"]
+		}],
+		environments: ["production"]
+	},
+	isActive: true,
+	isSensitive: false
+};
+client.updateConfigById(config.id, config, function(err, results) {
+	console.log(results); // true, if the resource was successfully updated
+});
+```
+
+### removeConfigById
+
+Removes a single config entry. This is the method signature:
+
+```
+removeConfigById(String id, Function callback)
+```
+
+**Note**: The resource can only be updated if the owner of the resource matches the authenticated user
+
+where:
+
+* `id` - is the unique id of the config entry to remove
+* `callback` - a method that expects to recieve an error object as the first parameter and a results object as the second that will be invoked when the response returns from configurine.
+
+```javascript
+client.removeConfigById('519c26189bc580ecf8000001', function(err, results) {
+	console.log(results); // true, if the resource was successfully removed
+});
+
+**Note**: The resource can only be removed if the owner of the resource matches the authenticated user.
 
 ## License
 
