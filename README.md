@@ -170,6 +170,7 @@ where:
 client.removeConfigById('519c26189bc580ecf8000001', function(err, results) {
 	console.log(results); // true, if the resource was successfully removed
 });
+```
 
 **Note**: The resource can only be removed if the owner of the resource matches the authenticated user.
 
