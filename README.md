@@ -151,6 +151,8 @@ client.updateConfigById(config.id, config, function(err, results) {
 });
 ```
 
+**Note**: The resource can only be updated if the owner of the resource matches the authenticated user. Also, updating the owner property will change the owner of the resource and therefore prohibit any further write actions by the previous owner.
+
 ### removeConfigById
 
 Removes a single config entry. This is the method signature:
@@ -158,8 +160,6 @@ Removes a single config entry. This is the method signature:
 ```
 removeConfigById(String id, Function callback)
 ```
-
-**Note**: The resource can only be updated if the owner of the resource matches the authenticated user
 
 where:
 
