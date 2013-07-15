@@ -4,6 +4,8 @@
 [![NPM version](https://badge.fury.io/js/configurine-client.png)](http://badge.fury.io/js/configurine-client)
 [![Dependency Status](https://david-dm.org/mac-/node-configurine-client.png)](https://david-dm.org/mac-/node-configurine-client)
 
+[![NPM](https://nodei.co/npm/configurine-client.png?downloads=true&stars=true)](https://nodei.co/npm/configurine-client/)
+
 ## Installation
 
 	npm install configurine-client
