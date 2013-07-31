@@ -4,6 +4,8 @@
 [![NPM version](https://badge.fury.io/js/configurine-client.png)](http://badge.fury.io/js/configurine-client)
 [![Dependency Status](https://david-dm.org/mac-/node-configurine-client.png)](https://david-dm.org/mac-/node-configurine-client)
 
+[![NPM](https://nodei.co/npm/configurine-client.png?downloads=true&stars=true)](https://nodei.co/npm/configurine-client/)
+
 ## Installation
 
 	npm install configurine-client
@@ -151,6 +153,8 @@ client.updateConfigById(config.id, config, function(err, results) {
 });
 ```
 
+**Note**: The resource can only be updated if the owner of the resource matches the authenticated user. Also, updating the owner property will change the owner of the resource and therefore prohibit any further write actions by the previous owner.
+
 ### removeConfigById
 
 Removes a single config entry. This is the method signature:
@@ -158,8 +162,6 @@ Removes a single config entry. This is the method signature:
 ```
 removeConfigById(String id, Function callback)
 ```
-
-**Note**: The resource can only be updated if the owner of the resource matches the authenticated user
 
 where:
 
@@ -170,6 +172,7 @@ where:
 client.removeConfigById('519c26189bc580ecf8000001', function(err, results) {
 	console.log(results); // true, if the resource was successfully removed
 });
+```
 
 **Note**: The resource can only be removed if the owner of the resource matches the authenticated user.
 
