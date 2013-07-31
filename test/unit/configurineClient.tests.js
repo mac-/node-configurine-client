@@ -70,7 +70,7 @@ describe('getConfigByName', function() {
 			associations: {
 				applications: [{
 					name: 'myapp',
-					version: '1.0.0'
+					versions: ['1.0.0']
 				}],
 				environments: ['production']
 			}
