@@ -683,7 +683,7 @@ describe('removeConfigById', function() {
 
 
 
-describe('createNewClientByConfigClientId', function() {
+describe('createClient', function() {
 	var newConfigClientId = "newclient";
 	var newConfigClientEmail = "test@test.com";
 	it('should create new client with client id', function(done){
@@ -694,7 +694,7 @@ describe('createNewClientByConfigClientId', function() {
 			.post('/clients', {clientId:newConfigClientId, email:newConfigClientEmail})
 			.reply(201, '', {location:"http://" + clientOptions.host + "/clients/" + newConfigClientId});
 
-		client.createNewClientByConfigClientId(newConfigClientId, newConfigClientEmail, function(err, result) {
+		client.createClient(newConfigClientId, newConfigClientEmail, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isString(result), 'Should have returned a string location');
 			assert.strictEqual(result, "http://" + clientOptions.host + "/clients/" + newConfigClientId, 'should return location of new client');
@@ -711,7 +711,7 @@ describe('createNewClientByConfigClientId', function() {
 			.post('/clients', {clientId:newConfigClientId, email:newConfigClientEmail})
 			.reply(200, '');
 
-		client.createNewClientByConfigClientId(newConfigClientId, newConfigClientEmail, function(err, result) {
+		client.createClient(newConfigClientId, newConfigClientEmail, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockClients.isDone(), 'should have satisfied mocked request');
@@ -727,7 +727,7 @@ describe('createNewClientByConfigClientId', function() {
 			.post('/clients', {clientId:newConfigClientId, email:newConfigClientEmail})
 			.reply(500, 'Internal Sever Error');
 
-		client.createNewClientByConfigClientId(newConfigClientId, newConfigClientEmail, function(err, result) {
+		client.createClient(newConfigClientId, newConfigClientEmail, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockClients.isDone(), 'should have satisfied mocked request');
@@ -739,7 +739,7 @@ describe('createNewClientByConfigClientId', function() {
 
 		client = new Client(clientOptions);
 
-		assert.throws(client.createNewClientByConfigClientId, /Missing parameters/, 'should throw an error');
+		assert.throws(client.createClient, /Missing parameters/, 'should throw an error');
 		done();
 	});
 
@@ -748,7 +748,7 @@ describe('createNewClientByConfigClientId', function() {
 
 
 
-describe('getConfigClientByConfigClientId', function() {
+describe('getClientById', function() {
 	var configClientId = "newclient";
 	var configObj = {
 		name: 'newclient',
@@ -767,7 +767,7 @@ describe('getConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).get('/clients/' + configClientId).reply(200, configObj);
 
-		client.getConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.getClientById(configClientId, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isObject(result), 'should return an object');
 			assert.strictEqual(result.name, configObj.name, 'should return configObj');
@@ -783,7 +783,7 @@ describe('getConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).get('/clients/' + configClientId).reply(200, configObj);
 
-		client.getConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.getClientById(configClientId, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isObject(result), 'should return an object');
 			assert.strictEqual(result.name, configObj.name, 'should return configObj');
@@ -793,7 +793,7 @@ describe('getConfigClientByConfigClientId', function() {
 			setTimeout(function() {
 				mockClients = nock(clientOptions.host).get('/clients/' + configClientId).reply(200, configObj);
 
-				client.getConfigClientByConfigClientId(configClientId, function(err, result) {
+				client.getClientById(configClientId, function(err, result) {
 					assert(!err, 'should not return an error');
 					assert(_.isObject(result), 'should return an object');
 					assert.strictEqual(result.name, configObj.name, 'should return configObj');
@@ -811,7 +811,7 @@ describe('getConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).get('/clients/' + configClientId).reply(404, notFoundError);
 
-		client.getConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.getClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -825,7 +825,7 @@ describe('getConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).get('/clients/' + configClientId).reply(500, 'Internal Sever Error');
 
-		client.getConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.getClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -839,7 +839,7 @@ describe('getConfigClientByConfigClientId', function() {
 		client = new Client(clientOptions);
 		var mockToken = nock(clientOptions.host).post('/token').reply(404, notFoundError);
 
-		client.getConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.getClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -852,7 +852,7 @@ describe('getConfigClientByConfigClientId', function() {
 		client = new Client(clientOptions);
 		var mockToken = nock(clientOptions.host).post('/token').reply(500, 'Internal Server Error');
 
-		client.getConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.getClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -864,7 +864,7 @@ describe('getConfigClientByConfigClientId', function() {
 
 		client = new Client(clientOptions);
 
-		assert.throws(client.getConfigClientByConfigClientId, /Missing parameters/, 'should throw an error');
+		assert.throws(client.getClientById, /Missing parameters/, 'should throw an error');
 		done();
 	});
 
@@ -873,7 +873,7 @@ describe('getConfigClientByConfigClientId', function() {
 
 
 
-describe('updateConfigClientFlags', function() {
+describe('updateClientById', function() {
 	var configClientId = "newclient",
 		configClientEmail = "test@test.com",
 		isConfirmed = false,
@@ -885,7 +885,7 @@ describe('updateConfigClientFlags', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).put('/clients/' + configClientId).reply(204, '');
 
-		client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+		client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isBoolean(result), 'should return a boolean as result');
 			assert(_.isEqual(result, true), 'result should match expected boolean');
@@ -901,7 +901,7 @@ describe('updateConfigClientFlags', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).put('/clients/' + configClientId).reply(204, '');
 
-		client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+		client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isBoolean(result), 'should return a boolean as result');
 			assert(_.isEqual(result, true), 'result should match expected boolean');
@@ -911,7 +911,7 @@ describe('updateConfigClientFlags', function() {
 			setTimeout(function() {
 				mockClients = nock(clientOptions.host).put('/clients/' + configClientId).reply(204, '');
 
-				client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+				client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 					assert(!err, 'should not return an error');
 					assert(_.isBoolean(result), 'should return a boolean as result');
 					assert(_.isEqual(result, true), 'result should match expected boolean');
@@ -929,7 +929,7 @@ describe('updateConfigClientFlags', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).put('/clients/' + configClientId).reply(404, notFoundError);
 
-		client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+		client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -944,7 +944,7 @@ describe('updateConfigClientFlags', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).put('/clients/' + configClientId).reply(200, 'fnord');
 
-		client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+		client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -959,7 +959,7 @@ describe('updateConfigClientFlags', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClients = nock(clientOptions.host).put('/clients/' + configClientId).reply(500, 'Internal Sever Error');
 
-		client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+		client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -973,7 +973,7 @@ describe('updateConfigClientFlags', function() {
 		client = new Client(clientOptions);
 		var mockToken = nock(clientOptions.host).post('/token').reply(404, notFoundError);
 
-		client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+		client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -986,7 +986,7 @@ describe('updateConfigClientFlags', function() {
 		client = new Client(clientOptions);
 		var mockToken = nock(clientOptions.host).post('/token').reply(404, 'Internal Server Error');
 
-		client.updateConfigClientFlags(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
+		client.updateClientById(configClientId, configClientEmail, isConfirmed, isAdmin, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -998,7 +998,7 @@ describe('updateConfigClientFlags', function() {
 
 		client = new Client(clientOptions);
 
-		assert.throws(client.updateConfigClientFlags, /Missing parameters/, 'should throw an error');
+		assert.throws(client.updateClientById, /Missing parameters/, 'should throw an error');
 		done();
 	});
 
@@ -1007,7 +1007,7 @@ describe('updateConfigClientFlags', function() {
 
 
 
-describe('deleteConfigClientByConfigClientId', function() {
+describe('deleteClientById', function() {
 	var configClientId = "newclient";
 
 	it('should remove configClient by id', function(done){
@@ -1016,7 +1016,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClient = nock(clientOptions.host).delete('/clients/' + configClientId).reply(204, '');
 
-		client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.deleteClientById(configClientId, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isBoolean(result), 'should return a boolean as result');
 			assert(_.isEqual(result, true), 'result should match expected boolean');
@@ -1032,7 +1032,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClient = nock(clientOptions.host).delete('/clients/' + configClientId).reply(204, '');
 
-		client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.deleteClientById(configClientId, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isBoolean(result), 'should return a boolean as result');
 			assert(_.isEqual(result, true), 'result should match expected boolean');
@@ -1042,7 +1042,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 			setTimeout(function() {
 				mockClient = nock(clientOptions.host).delete('/clients/' + configClientId).reply(204, '');
 
-				client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+				client.deleteClientById(configClientId, function(err, result) {
 					assert(!err, 'should not return an error');
 					assert(_.isBoolean(result), 'should return a boolean as result');
 					assert(_.isEqual(result, true), 'result should match expected boolean');
@@ -1061,7 +1061,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClient = nock(clientOptions.host).delete('/clients/' + configClientId).reply(404, notFoundError);
 
-		client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.deleteClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -1076,7 +1076,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClient = nock(clientOptions.host).delete('/clients/' + configClientId).reply(200, 'fnord');
 
-		client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.deleteClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -1091,7 +1091,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
 		var mockClient = nock(clientOptions.host).delete('/clients/' + configClientId).reply(500, 'Internal Sever Error');
 
-		client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.deleteClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -1105,7 +1105,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 		client = new Client(clientOptions);
 		var mockToken = nock(clientOptions.host).post('/token').reply(404, notFoundError);
 
-		client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.deleteClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -1118,7 +1118,7 @@ describe('deleteConfigClientByConfigClientId', function() {
 		client = new Client(clientOptions);
 		var mockToken = nock(clientOptions.host).post('/token').reply(404, 'Internal Server Error');
 
-		client.deleteConfigClientByConfigClientId(configClientId, function(err, result) {
+		client.deleteClientById(configClientId, function(err, result) {
 			assert(err, 'should return an error');
 			assert(!result, 'should not return a result');
 			assert(mockToken.isDone(), 'should have satisfied mocked request');
@@ -1130,14 +1130,14 @@ describe('deleteConfigClientByConfigClientId', function() {
 
 		client = new Client(clientOptions);
 
-		assert.throws(client.deleteConfigClientByConfigClientId, /Missing parameters/, 'should throw an error');
+		assert.throws(client.deleteClientById, /Missing parameters/, 'should throw an error');
 		done();
 	});
 
 	// it('should throw an error if clientId is selfs own clientId', function(done){
 
 	// 	client = new Client(clientOptions);
-	// 	assert.throws(client.deleteConfigClientByConfigClientId(clientOptions.clientId, function(e, r) {}), /Cannot Delete Self/, 'should throw an error');
+	// 	assert.throws(client.deleteClientById(clientOptions.clientId, function(e, r) {}), /Cannot Delete Self/, 'should throw an error');
 	// 	done();
 
 	// });
