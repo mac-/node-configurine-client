@@ -8,26 +8,26 @@ var nock = require('nock'),
 		sharedKey: 'a1c1f962-bc57-4109-8d49-bee9f562b321'
 	},
 	mockConfigObj = {
-	    "id": "519bc51c9b9c05f772000001",
-	    "name": "loglevel",
-	    "value": "error",
-	    "associations": {
-	        "applications": [],
-	        "environments": ["production"],
+	    'id': '519bc51c9b9c05f772000001',
+	    'name': 'loglevel',
+	    'value': 'error',
+	    'associations': {
+	        'applications': [],
+	        'environments': ['production'],
 	    },
-	    "isSensitive": false,
-	    "isActive": true,
-	    "owner": "myclient"
+	    'isSensitive': false,
+	    'isActive': true,
+	    'owner': 'myclient'
 	},
 	mockCreateConfigObj = {
-	    "name": "loglevel",
-	    "value": "error",
-	    "associations": {
-	        "applications": [],
-	        "environments": ["production"],
+	    'name': 'loglevel',
+	    'value': 'error',
+	    'associations': {
+	        'applications': [],
+	        'environments': ['production'],
 	    },
-	    "isSensitive": false,
-	    "isActive": true
+	    'isSensitive': false,
+	    'isActive': true
 	},
 	notFoundError = {
 		code: 404,
@@ -40,7 +40,7 @@ var nock = require('nock'),
 		message: 'Config entry malformed'
 	},
 	getMockAccessToken = function() {
-		return {"access_token":"myclient:1371666627113:" + new Date().getTime() + 500000 + ":47a8cdf5560706874688726cb1b3e843783c0811"};
+		return {'access_token':'myclient:1371666627113:' + new Date().getTime() + 500000 + ':47a8cdf5560706874688726cb1b3e843783c0811'};
 	};
 
 describe('getConfigByName', function() {
@@ -684,20 +684,20 @@ describe('removeConfigById', function() {
 
 
 describe('createClient', function() {
-	var newConfigClientId = "newclient";
-	var newConfigClientEmail = "test@test.com";
+	var newConfigClientId = 'newclient';
+	var newConfigClientEmail = 'test@test.com';
 	it('should create new client with client id', function(done){
 
 		client = new Client(clientOptions);
 
 		var mockClients = nock(clientOptions.host)
 			.post('/clients', {clientId:newConfigClientId, email:newConfigClientEmail})
-			.reply(201, '', {location:"http://" + clientOptions.host + "/clients/" + newConfigClientId});
+			.reply(201, '', {location:'http://' + clientOptions.host + '/clients/' + newConfigClientId});
 
 		client.createClient(newConfigClientId, newConfigClientEmail, function(err, result) {
 			assert(!err, 'should not return an error');
 			assert(_.isString(result), 'Should have returned a string location');
-			assert.strictEqual(result, "http://" + clientOptions.host + "/clients/" + newConfigClientId, 'should return location of new client');
+			assert.strictEqual(result, newConfigClientId, 'should return location of new client');
 			assert(mockClients.isDone(), 'should have satisfied mocked request');
 			done();
 		});
@@ -749,7 +749,7 @@ describe('createClient', function() {
 
 
 describe('getClientById', function() {
-	var configClientId = "newclient";
+	var configClientId = 'newclient';
 	var configObj = {
 		name: 'newclient',
 		sharedKey: 'b44d43d8-95ab-43f5-88cf-09c4ce59ac73',
@@ -874,8 +874,8 @@ describe('getClientById', function() {
 
 
 describe('updateClientById', function() {
-	var configClientId = "newclient",
-		configClientEmail = "test@test.com",
+	var configClientId = 'newclient',
+		configClientEmail = 'test@test.com',
 		isConfirmed = false,
 		isAdmin = true;
 
@@ -1008,7 +1008,7 @@ describe('updateClientById', function() {
 
 
 describe('deleteClientById', function() {
-	var configClientId = "newclient";
+	var configClientId = 'newclient';
 
 	it('should remove configClient by id', function(done){
 
