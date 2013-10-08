@@ -834,6 +834,21 @@ describe('getClientById', function() {
 		});
 	});
 
+	it('should get an error when configurine responds with an unexpected 200', function(done){
+
+		client = new Client(clientOptions);
+		var mockToken = nock(clientOptions.host).post('/token').reply(200, getMockAccessToken());
+		var mockClients = nock(clientOptions.host).get('/clients/' + configClientId).reply(200, 'fnord');
+
+		client.getClientById(configClientId, function(err, result) {
+			assert(err, 'should return an error');
+			assert(!result, 'should not return a result');
+			assert(mockToken.isDone(), 'should have satisfied mocked request');
+			assert(mockClients.isDone(), 'should have satisfied mocked request');
+			done();
+		});
+	});
+
 	it('should get an error the configurine responds with an error to the token call', function(done){
 
 		client = new Client(clientOptions);
